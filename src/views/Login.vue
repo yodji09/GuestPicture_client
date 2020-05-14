@@ -18,19 +18,37 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Login',
   data () {
     return {
       userName: '',
-      show: true
+      show: true,
+      token: '',
+      message: ''
     }
   },
   methods: {
     login () {
-      localStorage.setItem('userName', this.userName)
-      this.$router.push('/room')
-      this.userName = ''
+      axios({
+        method: 'POST',
+        url: 'http://localhost:3000/users/login',
+        data: {
+          username: this.userName
+        }
+      })
+        .then(({ data }) => {
+          this.$router.push('/room')
+          this.token = data.token
+          localStorage.setItem('token', this.token)
+          this.message = data.msg
+          this.userName = ''
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

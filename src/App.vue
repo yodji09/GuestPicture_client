@@ -1,52 +1,82 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link class="nav-name" to="/"><b-button variant="outline-danger" size="sm">Login</b-button></router-link>
-      <router-link class="nav-name" to="/game"><b-button variant="outline-danger" size="sm">Game</b-button></router-link>
-      <b-link class="nav-name" to="/logout"><b-button variant="outline-danger" size="sm">Logout</b-button></b-link>
+    <div class="navContainer">
+      <div class="brand">
+        <p>Guest Picture Syalala</p>
+      </div>
+      <div id="nav">
+        <router-link class="nav-name" to="/">Login</router-link>
+        <router-link class="nav-name" to="/game">Game</router-link>
+        <b-link class="nav-name" to="/logout">Logout</b-link>
+      </div>
     </div>
     <router-view/>
   </div>
 </template>
 
 <style>
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #FEE6E6;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background: #2ecc71;
+  background: linear-gradient(#FCFDFF, #F9FAFE);
   width: 100vw;
   height: 100vh;
 }
 
-#Logo {
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 200px 0;
+}
+
+.brand {
   font-weight: bold;
-  font-size: 14px;
-  color: #ff6161;
-  padding-top: 15px;
+  font-size: 22px;
+  color: #409d7e;
+  padding-top: 17px;
   margin-right: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .nav-name {
   margin: 0 20px 0;
-  text-decoration: none;
+  /* text-decoration: none; */
+  background-color: none;
+  text-transform: uppercase;
 }
 
 #nav {
-  padding: 5px;
-  /* background: chartreuse; */
+  padding: 10px 0 0 0;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
 
 #nav a {
   font-weight: bold;
-  font-size: 23px;
-  color: #909090;
+  font-size: 22px;
+  color: #4d4e52;
+  margin-left: 50px;
 }
 
 #nav a.router-link-exact-active {
-  color: #2096f3;
+  color: #409d7e;
 }
 </style>

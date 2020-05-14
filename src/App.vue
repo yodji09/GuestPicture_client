@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <!-- <div id="nav">
+      <router-link class="nav-name" to="/">Login</router-link>
+      <router-link class="nav-name" to="/game">Game</router-link>
+    </div> -->
     <router-view/>
   </div>
 </template>
@@ -14,19 +14,38 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  background: #2ecc71;
+  width: 100vw;
+  height: 100vh;
+}
+
+#Logo {
+  font-weight: bold;
+  font-size: 26px;
+  color: #ff6161;
+  padding-top: 15px;
+  margin-right: 20px;
+}
+
+.nav-name {
+  margin: 0 20px 0;
+  text-decoration: none;
 }
 
 #nav {
   padding: 30px;
+  /* background: chartreuse; */
+  display: flex;
+  align-items: center;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  font-size: 23px;
+  color: #909090;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #2096f3;
 }
 </style>

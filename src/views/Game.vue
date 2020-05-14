@@ -93,7 +93,7 @@ export default {
   color: white;
 }
 .choose {
-  padding-top: 40px;
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,6 +115,9 @@ button {
   height: 5vh;
   border-radius: 30px;
   color: white;
+}
+button:focus {
+  outline: none;
 }
 .bottom {
   background: white;

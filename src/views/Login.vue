@@ -1,12 +1,12 @@
 <template>
 <b-container>
   <b-row  align-v="center" class="row">
-    <b-form class="w-50 mx-auto" @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form class="w-50 mx-auto" @submit.prevent="login">
       <b-form-group>
       <p>Insert Your Cool Name</p>
         <b-form-input
           id="input-2"
-          v-model="form.name"
+          v-model="userName"
           required
           placeholder="Enter name"
         ></b-form-input>
@@ -22,15 +22,15 @@ export default {
   name: 'Login',
   data () {
     return {
-      form: {
-        name: ''
-      },
+      userName: '',
       show: true
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
+    login () {
+      localStorage.setItem('userName', this.userName)
+      this.$router.push('/room')
+      this.userName = ''
     }
   }
 }

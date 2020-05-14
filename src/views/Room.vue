@@ -2,11 +2,11 @@
 <div>
     <p class="username">Hi Amir, what do you want?</p>
     <div class="cardRoomList mx-auto">
-        <div class="cardRoom" @submit.prevent="joinGame">
+        <form class="cardRoom" @submit.prevent="joinGame">
             <p class="title">Join Room bray</p>
             <input type="text" class="roomName" v-model="joinName">
             <button type="submit">join room</button>
-        </div>
+        </form>
         <form class="cardRoom" @submit.prevent="toGame">
             <p>Insert room name :</p>
             <input class="roomName" type="text" placeholder="room name" v-model="roomName">
@@ -45,7 +45,8 @@ export default {
             method: 'patch',
             url: 'http://localhost:3000/users/getroom',
             data: {
-              name: data.result.name
+              name: data.result.name,
+              id: data.result.id
             },
             headers: {
               token: localStorage.getItem('token')
@@ -72,6 +73,7 @@ export default {
       })
         .then(({ data }) => {
           this.message = data.msg
+          console.log(this.message)
           this.$router.push('/game')
         })
     }

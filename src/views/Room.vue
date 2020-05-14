@@ -2,30 +2,80 @@
 <div>
     <p class="username">Hi Amir, what do you want?</p>
     <div class="cardRoomList mx-auto">
-        <div class="cardRoom">
-            <p class="title">Room 1 bray</p>
-            <button @click.prevent="toGame">join room</button>
-        </div>
-        <div class="createRoom" @submit.prevent="toGame" >
+        <form class="cardRoom" @submit.prevent="joinGame">
+            <p class="title">Join Room bray</p>
+            <input type="text" class="roomName" v-model="joinName">
+            <button type="submit">join room</button>
+        </form>
+        <form class="cardRoom" @submit.prevent="toGame">
             <p>Insert room name :</p>
             <input class="roomName" type="text" placeholder="room name" v-model="roomName">
             <input class="submit" type="submit" value="Create Room">
-        </div>
+        </form>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Room',
   data () {
     return {
-      roomName: ''
+      roomName: '',
+      message: '',
+      joinName: ''
     }
   },
   methods: {
     toGame () {
-      this.$router.push('/game')
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/rooms',
+        data: {
+          name: this.roomName
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.message = data.msg
+          return axios({
+            method: 'patch',
+            url: 'http://localhost:3000/users/getroom',
+            data: {
+              name: data.result.name,
+              id: data.result.id
+            },
+            headers: {
+              token: localStorage.getItem('token')
+            }
+          })
+        })
+        .then(({ data }) => {
+          this.$router.push('/game')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    joinGame () {
+      axios({
+        method: 'patch',
+        url: 'http://localhost:3000/users/joinroom',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          name: this.joinName
+        }
+      })
+        .then(({ data }) => {
+          this.message = data.msg
+          console.log(this.message)
+          this.$router.push('/game')
+        })
     }
   }
 }
@@ -79,8 +129,8 @@ button:hover {
     background: #409d7e;
     font-weight: bold;
 }
-.createRoom {
-    background:rgb(75, 75, 245);
+.cardRoom {
+    background:blue;
     width: 20vw;
     height: 40vh;
     border-radius: 20px;
@@ -90,7 +140,7 @@ button:hover {
     flex-direction: column;
     padding: 80px 40px 0 40px;
 }
-.createRoom p {
+.cardRoom p {
     color: white;
     font-size: 20px;
     text-align: left;

@@ -88,7 +88,7 @@ export default {
   flex-direction: column;
   padding-top: 30px;
   margin-top: 20px;
-  background: #98104e;
+  background: #409d7e;
   align-items: center;
   width: 25vw;
   height: 90%;
@@ -130,11 +130,12 @@ export default {
 }
 button {
   border: none;
-  background: chocolate;
+  background: #409d7e;
   width: 7vw;
   height: 5vh;
   border-radius: 30px;
   color: white;
+  margin-top: 50px;
 }
 button:focus {
   outline: none;

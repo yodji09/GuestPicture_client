@@ -85,6 +85,8 @@ export default {
 .username {
     font-weight: bold;
     font-size: 35px;
+    margin-top: 100px;
+    color: #4d4e52;
 }
 .cardRoomList{
     display: flex;
@@ -93,7 +95,7 @@ export default {
     margin-top: 90px;
 }
 .cardRoom {
-    background:blue;
+    background:#409d7e;
     width: 20vw;
     height: 40vh;
     border-radius: 20px;
@@ -108,22 +110,23 @@ export default {
 }
 button {
     margin-top: 80px;
-    color: white;
+    color: #409d7e;
     text-transform: capitalize;
     border-radius: 20px;
     width: 10vw;
     height: 4vh;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    background: none;
+    background: white;
+    border: none;
 }
 button:focus {
     outline: none;
 }
 button:hover {
-    color: blue;
-    border: none;
-    background: white;
+    color: white;
+    border: 2px solid white;
+    background: #409d7e;
     font-weight: bold;
 }
 .cardRoom {
@@ -147,26 +150,28 @@ button:hover {
     padding: 10px 0 10px 20px;
     border-radius: 20px;
     border: none;
+    font-weight: bold;
 }
 .roomName:focus {
     outline: none;
 }
 .submit{
     margin-top: 80px;
-    color: white;
+    color: rgb(75, 75, 245);
     text-transform: capitalize;
     border-radius: 20px;
     width: 10vw;
     height: 4vh;
     font-size: 18px;
     font-weight: bold;
-    background: none;
+    background: white;
     margin-left: 20%;
+    border: none;
 }
 .submit:hover {
-    color: blue;
-    border: none;
-    background: white;
+    color: white;
+    border: 2px solid white;
+    background: rgb(75, 75, 245);
     font-weight: bold;
 }
 .submit:focus {

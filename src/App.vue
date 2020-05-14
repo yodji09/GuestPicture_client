@@ -1,5 +1,10 @@
 <template>
   <div id="app">
+    <div id="nav">
+      <router-link class="nav-name" to="/"><b-button variant="outline-danger" size="sm">Login</b-button></router-link>
+      <router-link class="nav-name" to="/game"><b-button variant="outline-danger" size="sm">Game</b-button></router-link>
+      <b-link class="nav-name" to="/logout"><b-button variant="outline-danger" size="sm">Logout</b-button></b-link>
+    </div>
     <router-view/>
   </div>
 </template>
@@ -17,7 +22,7 @@
 
 #Logo {
   font-weight: bold;
-  font-size: 26px;
+  font-size: 14px;
   color: #ff6161;
   padding-top: 15px;
   margin-right: 20px;
@@ -29,7 +34,7 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 5px;
   /* background: chartreuse; */
   display: flex;
   align-items: center;

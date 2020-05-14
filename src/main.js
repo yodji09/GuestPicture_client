@@ -5,9 +5,21 @@ import store from './store'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Paintable from 'vue-paintable'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.use(Paintable, {
+  setItem (key, image) {
+    localStorage.setItem(key, image)
+  },
+  getItem (key) {
+    return localStorage.getItem(key)
+  },
+  removeItem (key) {
+    localStorage.removeItem(key)
+  }
+})
 
 Vue.config.productionTip = false
 

@@ -34,15 +34,35 @@
     </b-row>
     <b-row>
       <b-col class="bottom" cols="12" align-self="stretch">
-        <p>drawing here :</p>
+        <canvasPaintable></canvasPaintable>
+        <canvasPaintableClient v-if="false" :key="canvasData"></canvasPaintableClient>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+import canvasPaintable from '@/components/paintable'
+import canvasPaintableClient from '@/components/paintableclient'
+import socket from '@/config/socket'
+
 export default {
-  name: 'Game'
+  name: 'Game',
+  components: {
+    canvasPaintable,
+    canvasPaintableClient
+  },
+  data () {
+    return {
+      canvasData: ''
+    }
+  },
+  created () {
+    socket.on('returnPaintableData', (data) => {
+      localStorage.setItem('myscreen', data)
+      this.canvasData = data
+    })
+  }
 }
 </script>
 

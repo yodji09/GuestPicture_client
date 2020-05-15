@@ -1,15 +1,18 @@
 <template>
-<div class="loginPage">
-  <div class="container">
-    <h1>Welcome to The Greatest Game Ever, Guest Picture Syalala</h1>
-    <p class="label">Please insert your most cool name, to play the game</p>
-    <input v-model="userName" class="username" type="text" placeholder="Enter your name">
-    <button @click.prevent="login">Login</button>
-    <div class="copyright">
-      <p>Copyright © 2020</p>
-      <p>Team Satu MCC-005. All rights. reserved</p>
+  <div class="loginPage">
+    <div class="container">
+      <h1>Welcome to The Greatest Game Ever, Guest Picture Syalala</h1>
+      <p class="label">Please insert your most cool name, to play the game</p>
+      <div v-if='errMessage'>
+      {{errMessage}}
+      </div>
+      <input v-model="userName" class="username" type="text" placeholder="Enter your name">
+      <button @click.prevent="login">Login</button>
+      <div class="copyright">
+        <p>Copyright © 2020</p>
+        <p>Team Satu MCC-005. All rights. reserved</p>
+      </div>
     </div>
-  </div>
   <div>
     <img src="../assets/bg.png" alt="">
     <div class="circle"></div>
@@ -27,7 +30,8 @@ export default {
       userName: '',
       show: true,
       token: '',
-      message: ''
+      message: '',
+      errMessage: ''
     }
   },
   methods: {
@@ -43,11 +47,13 @@ export default {
           this.$router.push('/room')
           this.token = data.token
           localStorage.setItem('token', this.token)
+          localStorage.setItem('userName', this.userName)
           this.message = data.msg
           this.userName = ''
+          this.errMessage = ''
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          this.errMessage = 'Username Already Exist'
         })
     }
   }

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <p class="username">Hi Amir, what do you want?</p>
+    <p class="username">Hi {{userName}}, what do you want?</p>
     <div class="cardRoomList mx-auto">
         <form class="cardRoom" @submit.prevent="joinGame">
             <p class="title">Join Room bray</p>
@@ -18,13 +18,16 @@
 
 <script>
 import axios from 'axios'
+//  import { Socket } from 'net'
+import socket from '../config/socket'
 export default {
   name: 'Room',
   data () {
     return {
       roomName: '',
       message: '',
-      joinName: ''
+      joinName: '',
+      userName: localStorage.getItem('userName')
     }
   },
   methods: {
@@ -41,6 +44,8 @@ export default {
       })
         .then(({ data }) => {
           this.message = data.msg
+          localStorage.setItem('roomName', this.roomName)
+          localStorage.setItem('status', true)
           return axios({
             method: 'patch',
             url: 'http://localhost:3000/users/getroom',
@@ -73,8 +78,14 @@ export default {
       })
         .then(({ data }) => {
           this.message = data.msg
+          localStorage.setItem('roomName', this.joinName)
+          localStorage.setItem('status', false)
           console.log(this.message)
+          socket.emit('user-connect', this.userName)
           this.$router.push('/game')
+        })
+        .catch(err => {
+          console.log(err)
         })
     }
   }

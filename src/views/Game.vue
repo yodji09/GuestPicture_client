@@ -47,6 +47,7 @@
 import canvasPaintable from '@/components/paintable'
 import canvasPaintableClient from '@/components/paintableclient'
 import socket from '@/config/socket'
+import Axios from 'axios'
 
 export default {
   name: 'Game',
@@ -56,7 +57,27 @@ export default {
   },
   data () {
     return {
-      canvasData: ''
+      canvasData: '',
+      datas: [],
+      userStatus: false,
+      question: []
+    }
+  },
+  methods: {
+    fetchData () {
+      Axios({
+        method: 'get',
+        url: 'http://localhost:3000/rooms/question',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.question = data
+        })
+    },
+    submit () {
+      console.log(this.status)
     }
   },
   created () {
@@ -64,6 +85,14 @@ export default {
       localStorage.setItem('myscreen', data)
       this.canvasData = data
     })
+    socket.on('user-connect', (data) => {
+      this.datas = data
+    })
+    socket.on('user-logout', (data) => {
+      localStorage.clear()
+    })
+    this.userStatus = localStorage.getItem('status')
+    this.fetchData()
   }
 }
 </script>

@@ -8,23 +8,25 @@
         </b-col>
       </b-row>
       <b-row class="right">
-        <div v-if="userStatus == 'true'">
-          <button class="btn btn-primary" @click="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
-            {{ problemsCount }} Problem(s) left<br>
-            {{ timerCount }}<br>
-            can answer : {{ canAnswer }}
-        </div>
       <b-col class="choose">
+          <div v-if="userStatus == 'true'">
+            Question : {{question}}
+            <button class="btn btn-primary" @click.prevent="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
+              {{ problemsCount }} Problem(s) left<br>
+              {{ timerCount }}<br>
+              can answer : {{ canAnswer }}
+          </div>
           <p class="chooseTitle">Choose your answer :</p>
-          <div class="buttonGroup">
-            <button>Button 1</button>
-            <button>Button 1</button>
-            <button>Button 1</button>
+          <div class="buttonGroup" v-if="isDisabled">
+            <button>{{choiceA}}</button>
+            <button>{{choiceB}}</button>
+            <button>{{choiceC}}</button>
+            <button>{{choiceD}}</button>
           </div>
       </b-col>
-      <div v-if="userStatus == 'false'">
+      <!--<div v-if="userStatus == 'false'">
         <h1>{{userTimer}}</h1>
-      </div>
+      </div>-->
     </b-row>
     </div>
   </b-container>
@@ -47,13 +49,19 @@ export default {
       canvasData: '',
       datas: [],
       userStatus: localStorage.getItem('status'),
-      question: [],
+      questions: [],
+      question: '',
       timerCount: 0,
       problemsCount: 5,
       canAnswer: false,
       isDisabled: false,
       startGameLabel: 'Start Game!',
-      userTimer: 0
+      userTimer: 0,
+      storeIndex: [],
+      choiceA: 'button',
+      choiceB: 'button',
+      choiceC: 'button',
+      choiceD: 'button'
     }
   },
   methods: {
@@ -66,7 +74,8 @@ export default {
         }
       })
         .then(({ data }) => {
-          this.question = data
+          this.questions = data
+          console.log(data)
         })
     },
     begin () {
@@ -75,6 +84,27 @@ export default {
       this.timerCount = 20
       this.canAnswer = true
       this.startGameLabel = 'Next'
+      this.randomIndex()
+      this.question = this.questions[this.storeIndex.length - 1].clue
+      this.choiceA = this.questions[this.storeIndex.length - 1].choices[0].choice
+      this.choiceB = this.questions[this.storeIndex.length - 1].choices[1].choice
+      this.choiceC = this.questions[this.storeIndex.length - 1].choices[2].choice
+      this.choiceD = this.questions[this.storeIndex.length - 1].choices[3].choice
+      socket.emit('Play', (this.storeIndex))
+    },
+    randomIndex () {
+      const randomIndex = Math.floor(Math.random() * 9)
+      if (!this.storeIndex.length) {
+        this.storeIndex.push(randomIndex)
+      }
+      for (let i = 0; i < this.storeIndex.length; i++) {
+        if (this.storeIndex[i] !== randomIndex) {
+          this.storeIndex.push(randomIndex)
+          break
+        } else {
+          i = 0
+        }
+      }
     }
   },
   created () {
@@ -87,6 +117,9 @@ export default {
     })
     socket.on('user-logout', (data) => {
       localStorage.clear()
+    })
+    socket.on('play', data => {
+      this.storeIndex = data
     })
     this.fetchData()
   },

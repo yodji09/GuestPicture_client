@@ -50,20 +50,21 @@ export default {
     return {
       canvasData: '',
       datas: [],
-      userStatus: false
+      userStatus: false,
+      question: []
     }
   },
   methods: {
     fetchData () {
       Axios({
         method: 'get',
-        url: 'http://localhost:3000/rooms',
+        url: 'http://localhost:3000/rooms/question',
         headers: {
           token: localStorage.getItem('token')
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          this.question = data
         })
     },
     submit () {
@@ -82,6 +83,7 @@ export default {
       localStorage.clear()
     })
     this.userStatus = localStorage.getItem('status')
+    this.fetchData()
   }
 }
 </script>

@@ -15,7 +15,7 @@
               {{ problemsCount }} Problem(s) left<br>
               {{ timerCount }}<br>
           </div>
-          <div v-if="winner !== ''">
+          <div v-if="problemsCount === -1">
             <h2>The winner is : {{winner}}</h2>
           </div>
           <p class="chooseTitle">Choose your answer :</p>
@@ -74,7 +74,7 @@ export default {
     fetchData () {
       Axios({
         method: 'get',
-        url: 'http://localhost:3000/rooms/question',
+        url: 'https://frozen-plateau-23556.herokuapp.com/rooms/question',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -199,6 +199,8 @@ export default {
           } else if (this.problemsCount < 1) {
             this.isDisabled = true
             this.startGameLabel = 'Finished!'
+            this.problemsCount--
+            socket.emit('clear-scoreBoard')
           }
         }
       },

@@ -38,7 +38,7 @@ export default {
     login () {
       axios({
         method: 'POST',
-        url: 'http://localhost:3000/users/login',
+        url: 'https://frozen-plateau-23556.herokuapp.com/users/login',
         data: {
           username: this.userName
         }

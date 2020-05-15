@@ -34,7 +34,7 @@ export default {
     toGame () {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/rooms',
+        url: 'https://frozen-plateau-23556.herokuapp.com/rooms',
         data: {
           name: this.roomName
         },
@@ -48,7 +48,7 @@ export default {
           localStorage.setItem('status', true)
           return axios({
             method: 'patch',
-            url: 'http://localhost:3000/users/getroom',
+            url: 'https://frozen-plateau-23556.herokuapp.com/users/getroom',
             data: {
               name: data.result.name,
               id: data.result.id
@@ -68,7 +68,7 @@ export default {
     joinGame () {
       axios({
         method: 'patch',
-        url: 'http://localhost:3000/users/joinroom',
+        url: 'https://frozen-plateau-23556.herokuapp.com/users/joinroom',
         headers: {
           token: localStorage.getItem('token')
         },

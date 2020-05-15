@@ -5,7 +5,7 @@
       alwaysOnTop
       :active="isActive"
       :width="800"
-      :height="400"
+      :height="800"
       :disableNavigation="disableNavigation"
       :hide="hidePaintable"
       :horizontalNavigation="false"
@@ -65,14 +65,14 @@ a {
   color: #42b983;
 }
 .paint {
-  width: 800px;
-  height: 400px !important;
-  background-color:#cccccc;
+  width: 40vw !important;
+  height: 85vh !important;
+  background-color:#c7ffcc;
   border-radius: 5px;
-  margin: 5px auto;
   box-sizing: border-box;
   display: block;
   position: relative !important;
   overflow: hidden;
+  margin-left: 200px;
 }
 </style>

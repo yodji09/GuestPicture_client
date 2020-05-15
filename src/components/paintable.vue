@@ -16,7 +16,7 @@
           alwaysOnTop
           :active="isActive"
           :width="800"
-          :height="400"
+          :height="800"
           :disableNavigation="disableNavigation"
           :hide="hidePaintable"
           :horizontalNavigation="false"

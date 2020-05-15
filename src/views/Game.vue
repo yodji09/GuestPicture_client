@@ -14,17 +14,17 @@
             {{ timerCount }}<br>
             can answer : {{ canAnswer }}
         </div>
-        <b-col class="choose">
+      <b-col class="choose">
           <p class="chooseTitle">Choose your answer :</p>
           <div class="buttonGroup">
             <button>Button 1</button>
             <button>Button 1</button>
             <button>Button 1</button>
           </div>
-        </b-col>
-        <div v-if="userStatus == 'false'">
-          <h1>{{userTimer}}</h1>
-        </div>
+      </b-col>
+      <div v-if="userStatus == 'false'">
+        <h1>{{userTimer}}</h1>
+      </div>
     </b-row>
     </div>
   </b-container>

@@ -18,13 +18,6 @@
         <h1>{{userTimer}}</h1>
       </div>
     </b-row>
-    <b-row>
-      <b-col class="bottom" cols="12" align-self="stretch">
-        <canvasPaintable v-if="userStatus == 'true'"></canvasPaintable>
-        <canvasPaintableClient v-else :key="canvasData"></canvasPaintableClient>
-      </b-col>
-    </b-row>
-        </b-col> -->
         <b-col class="choose">
           <p class="chooseTitle">Choose your answer :</p>
           <div class="buttonGroup">

@@ -42,12 +42,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 200px 0;
+  padding: 0 70px 0;
 }
 
 .brand {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 16px;
   color: #409d7e;
   padding-top: 17px;
   margin-right: 20px;
@@ -57,13 +57,12 @@ body {
 
 .nav-name {
   margin: 0 20px 0;
-  /* text-decoration: none; */
   background-color: none;
   text-transform: uppercase;
 }
 
 #nav {
-  padding: 10px 0 0 0;
+  /* padding: 10px 0 0 0; */
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -71,9 +70,9 @@ body {
 
 #nav a {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 16px;
   color: #4d4e52;
-  margin-left: 50px;
+  margin-left: 20px;
 }
 
 #nav a.router-link-exact-active {

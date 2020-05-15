@@ -55,34 +55,38 @@ export default {
 </script>
 
 <style scoped>
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
 .loginPage {
   display: flex;
 }
 .container {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin-left: 0;
   display: flex;
   flex-direction: column;
 }
 h1 {
-  margin-top: 150px;
-  margin-left: 200px;
+  margin-top: 50px;
+  margin-left: 50px;
   font-weight: bold;
-  font-size: 50px;
+  font-size: 40px;
   text-align: left;
   color: #4d4e52;
+  width: 50vw;
 }
 .label {
   text-align: left;
-  margin-left: 200px;
-  font-size: 25px;
+  margin-left: 50px;
+  font-size: 23px;
   margin-top: 30px;
   color: #676a6f;
 }
 .username {
   margin-top: 30px;
-  margin-left: 200px;
+  margin-left: 50px;
   width: 20vw;
   height: 5vh;
   border: none;
@@ -96,7 +100,88 @@ h1 {
 }
 button {
   margin-top: 30px;
-  margin-left: 200px;
+  margin-left: 50px;
+  width: 20vw;
+  height: 5vh;
+  box-shadow: 0 20px 70px rgba(66, 154, 236, 0.185);
+  border-radius: 20px;
+  padding-left: 20px;
+  background: #409d7e;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+button:focus {
+  outline: none;
+}
+button:hover {
+  background: #58caa4;
+}
+.copyright {
+  margin-top: 16vh;
+  margin-left: 50px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 0;
+}
+img {
+  margin-top: 7vh;
+  width: 48vw;
+  margin-left: -60px;
+  z-index: 9999;
+  padding-right: 120px;
+}
+
+}
+
+/* Large screens ----------- */
+@media only screen
+and (min-width : 1824px) {
+.loginPage {
+  display: flex;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+}
+h1 {
+  margin-top: 150px;
+  margin-left: 80px;
+  font-weight: bold;
+  font-size: 50px;
+  text-align: left;
+  color: #4d4e52;
+}
+.label {
+  text-align: left;
+  margin-left: 80px;
+  font-size: 25px;
+  margin-top: 30px;
+  color: #676a6f;
+}
+.username {
+  margin-top: 30px;
+  margin-left: 80px;
+  width: 20vw;
+  height: 5vh;
+  border: none;
+  box-shadow: 0 20px 70px rgba(66, 154, 236, 0.185);
+  border-radius: 20px;
+  padding-left: 20px;
+  color: #676a6f;
+}
+.username:focus {
+  outline: none;
+}
+button {
+  margin-top: 30px;
+  margin-left: 80px;
   width: 20vw;
   height: 5vh;
   box-shadow: 0 20px 70px rgba(66, 154, 236, 0.185);
@@ -116,7 +201,7 @@ button:hover {
 }
 .copyright {
   margin-top: 25vh;
-  margin-left: 200px;
+  margin-left: 80px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -125,5 +210,6 @@ button:hover {
 img {
   margin-top: 7vh;
   margin-right: 8vw;
+}
 }
 </style>

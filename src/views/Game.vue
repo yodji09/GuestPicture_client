@@ -8,25 +8,24 @@
         </b-col>
       </b-row>
       <b-row class="right">
-      <div v-if="userStatus == 'true'">
-        <button class="btn btn-primary" @click="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
-          {{ problemsCount }} Problem(s) left<br>
-          {{ timerCount }}<br>
-          can answer : {{ canAnswer }}
-      </div>
-      <div v-if="userStatus == 'false'">
-        <h1>{{userTimer}}</h1>
-      </div>
-    </b-row>
-        <b-col class="choose">
+        <div v-if="userStatus == 'true'">
+          <button class="btn btn-primary" @click="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
+            {{ problemsCount }} Problem(s) left<br>
+            {{ timerCount }}<br>
+            can answer : {{ canAnswer }}
+        </div>
+      <b-col class="choose">
           <p class="chooseTitle">Choose your answer :</p>
           <div class="buttonGroup">
             <button>Button 1</button>
             <button>Button 1</button>
             <button>Button 1</button>
           </div>
-        </b-col>
-      </b-row>
+      </b-col>
+      <div v-if="userStatus == 'false'">
+        <h1>{{userTimer}}</h1>
+      </div>
+    </b-row>
     </div>
   </b-container>
 </template>

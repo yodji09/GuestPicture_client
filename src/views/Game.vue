@@ -75,7 +75,6 @@ export default {
       })
         .then(({ data }) => {
           this.questions = data
-          console.log(data)
         })
     },
     begin () {
@@ -90,7 +89,8 @@ export default {
       this.choiceB = this.questions[this.storeIndex.length - 1].choices[1].choice
       this.choiceC = this.questions[this.storeIndex.length - 1].choices[2].choice
       this.choiceD = this.questions[this.storeIndex.length - 1].choices[3].choice
-      socket.emit('Play', (this.storeIndex))
+      const button = [this.storeIndex, this.isDisabled]
+      socket.emit('play', (button))
     },
     randomIndex () {
       const randomIndex = Math.floor(Math.random() * 9)
@@ -119,16 +119,18 @@ export default {
       localStorage.clear()
     })
     socket.on('play', data => {
-      this.storeIndex = data
+      this.storeIndex = data[0]
+      this.isDisabled = data[1]
+      console.log(data)
     })
     this.fetchData()
   },
-  computed () {
-    socket.on('gameplay', (data) => {
-      this.userTimer = data
-      console.log(this.userTimer)
-    })
-  },
+  //  computed () {
+  //  socket.on('gameplay', (data) => {
+  //    this.userTimer = data
+  //    console.log(this.userTimer)
+  //  })
+  //  },
   watch: {
     timerCount: {
       handler (value) {

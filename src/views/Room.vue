@@ -2,13 +2,13 @@
 <div>
     <p class="username">Hi {{userName}}, what do you want?</p>
     <div class="cardRoomList mx-auto">
-        <form class="cardRoom" @submit.prevent="joinGame">
+        <form class="cardRoomJoin" @submit.prevent="joinGame">
             <p class="title">Join Room bray</p>
-            <input type="text" class="roomName" v-model="joinName">
+            <input type="text" class="roomName" placeholder="insert room name" v-model="joinName">
             <button type="submit">join room</button>
         </form>
-        <form class="cardRoom" @submit.prevent="toGame">
-            <p>Insert room name :</p>
+        <form class="cardRoomCreate" @submit.prevent="toGame">
+            <p class="title">Insert room name:</p>
             <input class="roomName" type="text" placeholder="room name" v-model="roomName">
             <input class="submit" type="submit" value="Create Room">
         </form>
@@ -96,37 +96,38 @@ export default {
 .username {
     font-weight: bold;
     font-size: 35px;
-    margin-top: 100px;
+    margin-top: 50px;
     color: #4d4e52;
 }
 .cardRoomList{
     display: flex;
     width: 80vw;
     justify-content: center;
-    margin-top: 90px;
+    margin-top: 20px;
 }
-.cardRoom {
+.cardRoomJoin {
     background:#409d7e;
     width: 20vw;
-    height: 40vh;
+    height: 50vh;
     border-radius: 20px;
-    padding: 100px 0 0 0;
+    padding: 40px 0 0 0;
+    margin: 0 40px 0;
 }
 .title {
     color: #ffffff;
-    font-size: 35px;
+    font-size: 20px;
     font-weight: bold;
     text-transform: capitalize;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 button {
     margin-top: 80px;
     color: #409d7e;
     text-transform: capitalize;
     border-radius: 20px;
-    width: 10vw;
-    height: 4vh;
-    font-size: 20px;
+    width: 12vw;
+    height: 6vh;
+    font-size: 18px;
     font-weight: bold;
     background: white;
     border: none;
@@ -140,16 +141,12 @@ button:hover {
     background: #409d7e;
     font-weight: bold;
 }
-.cardRoom {
-    background:blue;
+.cardRoomCreate {
+    background:rgb(75, 75, 245);
     width: 20vw;
-    height: 40vh;
+    height: 50vh;
     border-radius: 20px;
-    padding: 100px 0 0 0;
-    margin-left: 50px;
-    display: flex;
-    flex-direction: column;
-    padding: 80px 40px 0 40px;
+    padding: 40px 0 0 0;
 }
 .cardRoom p {
     color: white;
@@ -161,7 +158,7 @@ button:hover {
     padding: 10px 0 10px 20px;
     border-radius: 20px;
     border: none;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 .roomName:focus {
     outline: none;
@@ -171,12 +168,11 @@ button:hover {
     color: rgb(75, 75, 245);
     text-transform: capitalize;
     border-radius: 20px;
-    width: 10vw;
-    height: 4vh;
+    width: 12vw;
+    height: 6vh;
     font-size: 18px;
     font-weight: bold;
     background: white;
-    margin-left: 20%;
     border: none;
 }
 .submit:hover {

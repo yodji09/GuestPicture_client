@@ -4,8 +4,8 @@
       <div class="col col-md-2 d-flex flex-column align-item-right">
         <input type="color" v-model="color" />
         <!-- <button @click="easter1">easter</button> -->
-        <button @click="clearCanvas">clear</button>
-        <button @click="useEraser = !useEraser">
+        <button class="clear" @click="clearCanvas">clear</button>
+        <button class="eraser" @click="useEraser = !useEraser">
           {{ !useEraser ? 'eraser' : 'pencil' }}
         </button>
         <!-- <button @click="sendCanvasData">save</button><br /><br /> -->
@@ -80,29 +80,33 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 .paint {
-  width: 800px !important;
-  height: 400px !important;
-  background-color:#cccccc;
+  width: 40vw !important;
+  height: 85vh !important;
+  background-color:#c7ffcc;
   border-radius: 5px;
-  margin: 5px auto;
   box-sizing: border-box;
   display: block;
   position: relative !important;
   overflow: hidden;
+  margin-left: 20px;
+}
+.clear {
+  font-size: 12px;
+  width: 45px;
+  background: red;
+  color: white;
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 2px;
+}
+.eraser {
+  font-size: 12px;
+  border: 1px solid black;
+  width: 45px;
+  background: yellow;
+  color: black;
+  margin-top: 10px;
+  padding: 2px;
 }
 </style>

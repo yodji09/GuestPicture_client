@@ -1,20 +1,13 @@
 <template>
   <b-container fluid>
-    <b-row class="top">
-      <b-col class="scoreContainer" cols="4">
-        <div class="scoreCard">
-          <div class="scoreTitle">
-            <p>SCORE BOARD</p>
-          </div>
-          <div v-for="(data, i) in datas" :key='i'>
-            <div class="scoreInfo">
-              <p class="number">1.</p>
-              <p class="name">{{data}}</p>
-              <p class="score">8</p>
-            </div>
-          </div>
-        </div>
-      </b-col>
+    <div class="gameContainer">
+      <b-row>
+        <b-col class="left">
+          <canvasPaintable></canvasPaintable>
+          <canvasPaintableClient v-if="false" :key="canvasData"></canvasPaintableClient>
+        </b-col>
+      </b-row>
+      <b-row class="right">
       <div v-if="userStatus == 'true'">
         <button class="btn btn-primary" @click="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
           {{ problemsCount }} Problem(s) left<br>
@@ -24,14 +17,6 @@
       <div v-if="userStatus == 'false'">
         <h1>{{userTimer}}</h1>
       </div>
-      <b-col class="choose" cols="8">
-        <p class="chooseTitle">Choose your answer :</p>
-        <div class="buttonGroup">
-          <button>Button 1</button>
-          <button>Button 1</button>
-          <button>Button 1</button>
-        </div> <br>
-      </b-col>
     </b-row>
     <b-row>
       <b-col class="bottom" cols="12" align-self="stretch">
@@ -39,6 +24,17 @@
         <canvasPaintableClient v-else :key="canvasData"></canvasPaintableClient>
       </b-col>
     </b-row>
+        </b-col> -->
+        <b-col class="choose">
+          <p class="chooseTitle">Choose your answer :</p>
+          <div class="buttonGroup">
+            <button>Button 1</button>
+            <button>Button 1</button>
+            <button>Button 1</button>
+          </div>
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
@@ -134,35 +130,28 @@ export default {
 </script>
 
 <style scoped>
-.top {
-  width: 100vw;
-  height: 50vh;
-}
-.top .scoreContainer {
-  background: white;
-}
-.top .choose {
-  background: white;
+.gameContainer {
+  display: flex;
 }
 .scoreContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
   text-align: center;
 }
 .scoreCard {
   display: flex;
   flex-direction: column;
-  padding-top: 30px;
-  margin-top: 20px;
+  padding-top: 20px;
   background: #409d7e;
   align-items: center;
-  width: 25vw;
-  height: 90%;
-  border-radius: 20px;
+  width: 20vw;
+  margin-left: -29vw;
+  margin-top: 5px;
+  height: 100vh;
 }
 .scoreTitle {
-  font-size: 35px;
+  font-size: 22px;
   font-weight: bold;
   color: white;
 }
@@ -183,7 +172,8 @@ export default {
   padding-top: 100px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: flex-start;
+  margin-left: 250px;
 }
 .chooseTitle {
   font-weight: bold;
@@ -192,7 +182,6 @@ export default {
 .buttonGroup {
   display: flex;
   margin-top: 30px;
-  width: 25vw;
   justify-content: space-between;
 }
 button {
@@ -207,17 +196,8 @@ button {
 button:focus {
   outline: none;
 }
-.bottom {
-  background: white;
-  height: 50vh;
-  width: 100vw;
-  border-top: 2px solid black;
-  padding-top: 20px;
-}
-.bottom p {
-  text-align: left;
-  margin-left: 20px;
-  font-weight: bold;
-  font-size: 35px;
+.left {
+  margin-left: -150px;
+  padding-left: 0;
 }
 </style>

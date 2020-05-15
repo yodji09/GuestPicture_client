@@ -5,9 +5,8 @@
         <p>Guest Picture Syalala</p>
       </div>
       <div id="nav">
-        <router-link class="nav-name" to="/">Login</router-link>
         <router-link class="nav-name" to="/game">Game</router-link>
-        <b-link class="nav-name" @click.prevent="logout">End Game</b-link>
+        <b-link class="nav-name" @click.prevent="logout" v-if="status === 'true'">End Game</b-link>
       </div>
     </div>
     <router-view/>
@@ -17,12 +16,20 @@
 <script>
 import socket from './config/socket'
 export default {
+  data () {
+    return {
+      status: false
+    }
+  },
   methods: {
     logout () {
       socket.emit('user-logout', localStorage.getItem('userName'))
       localStorage.clear()
       this.$router.push('/')
     }
+  },
+  mounted () {
+    this.status = localStorage.getItem('status')
   }
 }
 </script>

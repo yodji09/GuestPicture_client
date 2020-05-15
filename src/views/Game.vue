@@ -14,19 +14,21 @@
             <button class="btn btn-primary" @click.prevent="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
               {{ problemsCount }} Problem(s) left<br>
               {{ timerCount }}<br>
-              can answer : {{ canAnswer }}
+          </div>
+          <div v-if="winner !== ''">
+            <h2>The winner is : {{winner}}</h2>
           </div>
           <p class="chooseTitle">Choose your answer :</p>
-          <div class="buttonGroup" v-if="isDisabled">
-            <button>{{choiceA}}</button>
-            <button>{{choiceB}}</button>
-            <button>{{choiceC}}</button>
-            <button>{{choiceD}}</button>
+          <div class="buttonGroup" v-if="isDisabled && userStatus == 'false'">
+            <b-button @click.prevent="checkAnswer(choiceA)" :disabled="disableButton">{{choiceA}}</b-button>
+            <b-button @click.prevent="checkAnswer(choiceB)" :disabled="disableButton">{{choiceB}}</b-button>
+            <b-button @click.prevent="checkAnswer(choiceC)" :disabled="disableButton">{{choiceC}}</b-button>
+            <b-button @click.prevent="checkAnswer(choiceD)" :disabled="disableButton">{{choiceD}}</b-button>
           </div>
       </b-col>
-      <!--<div v-if="userStatus == 'false'">
+      <div v-if="userStatus == 'false'">
         <h1>{{userTimer}}</h1>
-      </div>-->
+      </div>
     </b-row>
     </div>
   </b-container>
@@ -61,7 +63,11 @@ export default {
       choiceA: 'button',
       choiceB: 'button',
       choiceC: 'button',
-      choiceD: 'button'
+      choiceD: 'button',
+      answer: '',
+      score: 0,
+      disableButton: false,
+      winner: ''
     }
   },
   methods: {
@@ -80,7 +86,7 @@ export default {
     begin () {
       this.isDisabled = true
       this.problemsCount--
-      this.timerCount = 20
+      this.timerCount = 5
       this.canAnswer = true
       this.startGameLabel = 'Next'
       this.randomIndex()
@@ -105,6 +111,19 @@ export default {
           i = 0
         }
       }
+    },
+    checkAnswer (value) {
+      this.disableButton = true
+      if (value === this.answer) {
+        this.score = 100 - ((this.timerCount - this.userTimer) * 3)
+      } else {
+        this.score = 0
+      }
+      const data = {
+        username: localStorage.getItem('userName'),
+        score: this.score
+      }
+      socket.emit('update-score', data)
     }
   },
   created () {
@@ -121,15 +140,48 @@ export default {
     socket.on('play', data => {
       this.storeIndex = data[0]
       this.isDisabled = data[1]
-      console.log(data)
+      if (this.storeIndex.length - 1 === 4) {
+        this.choiceA = this.questions[9].choices[0].choice
+        this.choiceB = this.questions[9].choices[1].choice
+        this.choiceC = this.questions[9].choices[2].choice
+        this.choiceD = this.questions[9].choices[3].choice
+      }
+      this.choiceA = this.questions[this.storeIndex.length - 1].choices[0].choice
+      this.choiceB = this.questions[this.storeIndex.length - 1].choices[1].choice
+      this.choiceC = this.questions[this.storeIndex.length - 1].choices[2].choice
+      this.choiceD = this.questions[this.storeIndex.length - 1].choices[3].choice
+      this.answer = this.question = this.questions[this.storeIndex.length - 1].clue
+    })
+    socket.on('gameplay', data => {
+      this.userTimer = data
+      if (this.userTimer === 24) {
+        this.disableButton = false
+      }
+      if (this.userTimer === 0) {
+        this.disableButton = true
+      }
+    })
+    socket.on('scoreBoard', data => {
+      let scoreMax = 0
+      let name = ''
+      for (let i = 0; i < data.length; i++) {
+        if (scoreMax < data[i].score) {
+          scoreMax = data[i].score
+          name = data[i].username
+        }
+      }
+      this.winner = name
+      localStorage.setItem('score', data)
     })
     this.fetchData()
   },
   //  computed () {
-  //  socket.on('gameplay', (data) => {
-  //    this.userTimer = data
-  //    console.log(this.userTimer)
-  //  })
+  //  userTime : () => {
+  //    socket.on('gameplay', (data) => {
+  //      this.userTimer = data
+  //      console.log(this.userTimer)
+  //    })
+  //  }
   //  },
   watch: {
     timerCount: {

@@ -8,27 +8,22 @@
         </b-col>
       </b-row>
       <b-row class="right">
-        <!-- <b-col class="scoreContainer" cols="4">
-          <div class="scoreCard">
-            <div class="scoreTitle">
-              <p>SCORE BOARD</p>
-            </div>
-            <div class="scoreInfo">
-              <p class="number">1.</p>
-              <p class="name">M. Salah</p>
-              <p class="score">8</p>
-            </div>
-            <div class="scoreInfo">
-              <p class="number">2.</p>
-              <p class="name">Lionel Messi</p>
-              <p class="score">7</p>
-            </div>
-            <div class="scoreInfo">
-              <p class="number">3.</p>
-              <p class="name">Ronaldo</p>
-              <p class="score">10</p>
-            </div>
-          </div>
+      <div v-if="userStatus == 'true'">
+        <button class="btn btn-primary" @click="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
+          {{ problemsCount }} Problem(s) left<br>
+          {{ timerCount }}<br>
+          can answer : {{ canAnswer }}
+      </div>
+      <div v-if="userStatus == 'false'">
+        <h1>{{userTimer}}</h1>
+      </div>
+    </b-row>
+    <b-row>
+      <b-col class="bottom" cols="12" align-self="stretch">
+        <canvasPaintable v-if="userStatus == 'true'"></canvasPaintable>
+        <canvasPaintableClient v-else :key="canvasData"></canvasPaintableClient>
+      </b-col>
+    </b-row>
         </b-col> -->
         <b-col class="choose">
           <p class="chooseTitle">Choose your answer :</p>
@@ -59,8 +54,14 @@ export default {
     return {
       canvasData: '',
       datas: [],
-      userStatus: false,
-      question: []
+      userStatus: localStorage.getItem('status'),
+      question: [],
+      timerCount: 0,
+      problemsCount: 5,
+      canAnswer: false,
+      isDisabled: false,
+      startGameLabel: 'Start Game!',
+      userTimer: 0
     }
   },
   methods: {
@@ -76,8 +77,12 @@ export default {
           this.question = data
         })
     },
-    submit () {
-      console.log(this.status)
+    begin () {
+      this.isDisabled = true
+      this.problemsCount--
+      this.timerCount = 20
+      this.canAnswer = true
+      this.startGameLabel = 'Next'
     }
   },
   created () {
@@ -91,8 +96,35 @@ export default {
     socket.on('user-logout', (data) => {
       localStorage.clear()
     })
-    this.userStatus = localStorage.getItem('status')
     this.fetchData()
+  },
+  computed () {
+    socket.on('gameplay', (data) => {
+      this.userTimer = data
+      console.log(this.userTimer)
+    })
+  },
+  watch: {
+    timerCount: {
+      handler (value) {
+        if (value > 0) {
+          setTimeout(() => {
+            this.canAnswer = true
+            this.timerCount--
+            socket.emit('gameplay', this.timerCount)
+          }, 1000)
+        } else {
+          this.canAnswer = false
+          if (this.problemsCount > 0) {
+            this.isDisabled = false
+          } else if (this.problemsCount < 1) {
+            this.isDisabled = true
+            this.startGameLabel = 'Finished!'
+          }
+        }
+      },
+      immediate: true // This ensures the watcher is triggered upon creation
+    }
   }
 }
 </script>

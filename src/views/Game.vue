@@ -6,20 +6,12 @@
           <div class="scoreTitle">
             <p>SCORE BOARD</p>
           </div>
-          <div class="scoreInfo">
-            <p class="number">1.</p>
-            <p class="name">M. Salah</p>
-            <p class="score">8</p>
-          </div>
-          <div class="scoreInfo">
-            <p class="number">2.</p>
-            <p class="name">Lionel Messi</p>
-            <p class="score">7</p>
-          </div>
-          <div class="scoreInfo">
-            <p class="number">3.</p>
-            <p class="name">Ronaldo</p>
-            <p class="score">10</p>
+          <div v-for="(data, i) in datas" :key='i'>
+            <div class="scoreInfo">
+              <p class="number">1.</p>
+              <p class="name">{{data}}</p>
+              <p class="score">8</p>
+            </div>
           </div>
         </div>
       </b-col>
@@ -34,8 +26,9 @@
     </b-row>
     <b-row>
       <b-col class="bottom" cols="12" align-self="stretch">
-        <canvasPaintable></canvasPaintable>
-        <canvasPaintableClient v-if="false" :key="canvasData"></canvasPaintableClient>
+        <button @click.prevent="submit"></button>
+        <canvasPaintable v-if="userStatus"></canvasPaintable>
+        <canvasPaintableClient v-else :key="canvasData"></canvasPaintableClient>
       </b-col>
     </b-row>
   </b-container>
@@ -45,6 +38,7 @@
 import canvasPaintable from '@/components/paintable'
 import canvasPaintableClient from '@/components/paintableclient'
 import socket from '@/config/socket'
+import Axios from 'axios'
 
 export default {
   name: 'Game',
@@ -54,7 +48,26 @@ export default {
   },
   data () {
     return {
-      canvasData: ''
+      canvasData: '',
+      datas: [],
+      userStatus: false
+    }
+  },
+  methods: {
+    fetchData () {
+      Axios({
+        method: 'get',
+        url: 'http://localhost:3000/rooms',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+    },
+    submit () {
+      console.log(this.status)
     }
   },
   created () {
@@ -62,6 +75,13 @@ export default {
       localStorage.setItem('myscreen', data)
       this.canvasData = data
     })
+    socket.on('user-connect', (data) => {
+      this.datas = data
+    })
+    socket.on('user-logout', (data) => {
+      localStorage.clear()
+    })
+    this.userStatus = localStorage.getItem('status')
   }
 }
 </script>

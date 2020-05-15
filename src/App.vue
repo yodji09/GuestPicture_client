@@ -7,13 +7,25 @@
       <div id="nav">
         <router-link class="nav-name" to="/">Login</router-link>
         <router-link class="nav-name" to="/game">Game</router-link>
-        <b-link class="nav-name" to="/logout">Logout</b-link>
+        <b-link class="nav-name" @click.prevent="logout">End Game</b-link>
       </div>
     </div>
     <router-view/>
   </div>
 </template>
 
+<script>
+import socket from './config/socket'
+export default {
+  methods: {
+    logout () {
+      socket.emit('user-logout', localStorage.getItem('userName'))
+      localStorage.clear()
+      this.$router.push('/')
+    }
+  }
+}
+</script>
 <style>
 *,
 *:before,

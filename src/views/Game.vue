@@ -3,8 +3,8 @@
     <div class="gameContainer">
       <b-row>
         <b-col class="left">
-          <canvasPaintable></canvasPaintable>
-          <canvasPaintableClient v-if="false" :key="canvasData"></canvasPaintableClient>
+          <canvasPaintable v-if="userStatus == 'true'"></canvasPaintable>
+          <canvasPaintableClient v-else :key="canvasData"></canvasPaintableClient>
         </b-col>
       </b-row>
       <b-row class="right">

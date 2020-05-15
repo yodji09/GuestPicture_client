@@ -15,19 +15,27 @@
           </div>
         </div>
       </b-col>
+      <div v-if="userStatus == 'true'">
+        <button class="btn btn-primary" @click="begin" :disabled="isDisabled"> {{ startGameLabel }} </button><br>
+          {{ problemsCount }} Problem(s) left<br>
+          {{ timerCount }}<br>
+          can answer : {{ canAnswer }}
+      </div>
+      <div v-if="userStatus == 'false'">
+        <h1>{{userTimer}}</h1>
+      </div>
       <b-col class="choose" cols="8">
         <p class="chooseTitle">Choose your answer :</p>
         <div class="buttonGroup">
           <button>Button 1</button>
           <button>Button 1</button>
           <button>Button 1</button>
-        </div>
+        </div> <br>
       </b-col>
     </b-row>
     <b-row>
       <b-col class="bottom" cols="12" align-self="stretch">
-        <button @click.prevent="submit"></button>
-        <canvasPaintable v-if="userStatus"></canvasPaintable>
+        <canvasPaintable v-if="userStatus == 'true'"></canvasPaintable>
         <canvasPaintableClient v-else :key="canvasData"></canvasPaintableClient>
       </b-col>
     </b-row>
@@ -50,8 +58,14 @@ export default {
     return {
       canvasData: '',
       datas: [],
-      userStatus: false,
-      question: []
+      userStatus: localStorage.getItem('status'),
+      question: [],
+      timerCount: 0,
+      problemsCount: 5,
+      canAnswer: false,
+      isDisabled: false,
+      startGameLabel: 'Start Game!',
+      userTimer: 0
     }
   },
   methods: {
@@ -67,8 +81,12 @@ export default {
           this.question = data
         })
     },
-    submit () {
-      console.log(this.status)
+    begin () {
+      this.isDisabled = true
+      this.problemsCount--
+      this.timerCount = 20
+      this.canAnswer = true
+      this.startGameLabel = 'Next'
     }
   },
   created () {
@@ -82,8 +100,35 @@ export default {
     socket.on('user-logout', (data) => {
       localStorage.clear()
     })
-    this.userStatus = localStorage.getItem('status')
     this.fetchData()
+  },
+  computed () {
+    socket.on('gameplay', (data) => {
+      this.userTimer = data
+      console.log(this.userTimer)
+    })
+  },
+  watch: {
+    timerCount: {
+      handler (value) {
+        if (value > 0) {
+          setTimeout(() => {
+            this.canAnswer = true
+            this.timerCount--
+            socket.emit('gameplay', this.timerCount)
+          }, 1000)
+        } else {
+          this.canAnswer = false
+          if (this.problemsCount > 0) {
+            this.isDisabled = false
+          } else if (this.problemsCount < 1) {
+            this.isDisabled = true
+            this.startGameLabel = 'Finished!'
+          }
+        }
+      },
+      immediate: true // This ensures the watcher is triggered upon creation
+    }
   }
 }
 </script>
